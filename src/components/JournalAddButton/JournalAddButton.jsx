@@ -26,7 +26,7 @@ function JournalAddButton() {
           stroke-linejoin="round"
         />
       </svg>
-      Новое воспоминание
+      New memory
     </CardButton>
   );
 }

@@ -1,4 +1,4 @@
-import "./JournalForm.css";
+import styles from "./JournalForm.module.css";
 import Button from "../Button/Button";
 import { useState } from "react";
 
@@ -41,26 +41,49 @@ function JournalForm({ onSubmit }) {
   };
 
   return (
-    <form className="journal-form" onSubmit={addJournalItem}>
-      <input
-        type="text"
-        name="title"
-        className={`input ${formValidState.title ? "" : "invalid"}`}
-      />
-      <input
-        type="date"
-        name="date"
-        className={`input ${formValidState.date ? "" : "invalid"}`}
-      />
-      <input type="text" name="tag" />
+    <form className={styles["journal-form"]} onSubmit={addJournalItem}>
+      <div>
+        <input
+          type="text"
+          name="title"
+          className={`${styles["input-title"]} ${
+            formValidState.title ? "" : styles["invalid"]
+          }`}
+        />
+      </div>
+      <div className={styles["form-row"]}>
+        <label htmlFor="date" className={styles["form-labels"]}>
+          <img src="calendar.svg" alt="icon-calendar" />
+          <span>Date</span>
+        </label>
+        <input
+          type="date"
+          name="date"
+          id=""
+          className={`${styles["input"]} ${
+            formValidState.date ? "" : styles["invalid"]
+          }`}
+        />
+      </div>
+      <div className={styles["form-row"]}>
+        <label htmlFor="tag" className={styles["form-labels"]}>
+          <img src="folder.svg" alt="icon-folder" />
+          <span>Marks</span>
+        </label>
+        <input type="text" name="tag" id="tag" className={styles["input"]} />
+      </div>
+
       <textarea
         name="post"
         id=""
         cols="30"
         rows="10"
         placeholder="Enter your text"
-        className={`input ${formValidState.post ? "" : "invalid"}`} //динамическая стилизация класом
+        className={`${styles["input"]} ${
+          formValidState.post ? "" : styles["invalid"]
+        }`} //динамическая стилизация класом
       ></textarea>
+
       <Button text="Save" />
     </form>
   );
