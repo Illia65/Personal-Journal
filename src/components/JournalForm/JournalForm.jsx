@@ -1,13 +1,31 @@
 import styles from "./JournalForm.module.css";
 import Button from "../Button/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const INITIAL_STATE = {
+  title: true,
+  post: true,
+  date: true,
+};
 
 function JournalForm({ onSubmit }) {
-  const [formValidState, setFormValidState] = useState({
-    title: true,
-    post: true,
-    date: true,
-  }); //(валидация формы)
+  const [formValidState, setFormValidState] = useState(INITIAL_STATE);
+
+  useEffect(() => {
+    let timerId;
+    if (
+      !setFormValidState.date ||
+      setFormValidState.post ||
+      setFormValidState.title
+    )
+      setTimeout(() => {
+        timerId = setFormValidState(INITIAL_STATE);
+      }, 2000);
+
+    return () => {
+      clearTimeout(timerId); //чистка (для возврата новой функции)
+    };
+  }, [formValidState]);
 
   const addJournalItem = (e) => {
     e.preventDefault(); //что бы не было дефолтной перезагрузки страницы

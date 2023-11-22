@@ -8,34 +8,55 @@ import Header from "./components/Header/Header";
 import JournalList from "./components/JournalList/JournalList";
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton";
 import JournalForm from "./components/JournalForm/JournalForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const INITIAL_DATA = [
-  {
-    id: 1,
-    title: "Подготовка к обновлению курсов",
-    text: "Сегодня провёл весь день за...",
-    date: new Date(),
-  },
-  {
-    id: 2,
-    title: "Поход в годы",
-    text: "Думал, что очень много време...",
-    date: new Date(),
-  },
-];
+// [
+//   {
+//     "id": 1,
+//     "title": "Подготовка к обновлению курсов",
+//     "text": "Сегодня провёл весь день за...",
+//     "date": "2023-11-22T10:30:00.000Z"
+//   },
+//   {
+//     "id": 2,
+//     "title": "Поход в годы",
+//     "text": "Думал, что очень много време...",
+//     "date": "2023-11-22T10:30:00.000Z"
+//   }
+// ]
+
 
 function App() {
-  const [items, setItem] = useState(INITIAL_DATA);
+  const [items, setItem] = useState([]);
+
+  useEffect(() => {   //читаем с localStorage
+    const data = JSON.parse(localStorage.getItem("data"));
+    if (data) {
+      setItem(
+        data.map((item) => ({
+          ...item,
+          date: new Date(item.date),
+        }))
+      );
+    }
+  }, []);
+
+useEffect(() => {
+  if (items.length) {  //Записываем localStorage
+    localStorage.setItem('data', JSON.stringify(items)); //приводи к строке обьект
+  }
+}, [items]);
+
+
   const addItem = (item) => {
-   
     setItem((oldItems) => [
       ...oldItems,
       {
-        text: item.text,
+        post: item.post,
         title: item.title,
         date: new Date(item.date),
-        id: oldItems.length > 0 ? Math.max(...oldItems.map((i) => i.id)) + 1 : 1
+        id:
+          oldItems.length > 0 ? Math.max(...oldItems.map((i) => i.id)) + 1 : 1,
       },
     ]);
   };
