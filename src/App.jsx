@@ -1,6 +1,6 @@
 import "./App.css";
-// import Button from "./components/Button/Button";
-import JournalItem from "./components/Journalitem/Journalitem";
+import Button from "./components/Button/Button";
+import JournalItem from "./components/JournalItem/Journalitem";
 import CardButton from "./components/CardButton/CardButton";
 import LeftPanel from "./Layout/LeftPanel/LeftPanel";
 import Body from "./Layout/Body/Body";
@@ -8,55 +8,30 @@ import Header from "./components/Header/Header";
 import JournalList from "./components/JournalList/JournalList";
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton";
 import JournalForm from "./components/JournalForm/JournalForm";
-import { useEffect, useState } from "react";
+import { useLocalStorage } from "./hooks/use.localstorage.hook";
 
-// [
-//   {
-//     "id": 1,
-//     "title": "Подготовка к обновлению курсов",
-//     "text": "Сегодня провёл весь день за...",
-//     "date": "2023-11-22T10:30:00.000Z"
-//   },
-//   {
-//     "id": 2,
-//     "title": "Поход в годы",
-//     "text": "Думал, что очень много време...",
-//     "date": "2023-11-22T10:30:00.000Z"
-//   }
-// ]
 
+function mapItems(items) {
+  if (!items) {
+    return [];
+  }
+  return items.map((i) => ({
+    ...i,
+    date: new Date(i.date),
+  }));
+}
 
 function App() {
-  const [items, setItem] = useState([]);
-
-  useEffect(() => {   //читаем с localStorage
-    const data = JSON.parse(localStorage.getItem("data"));
-    if (data) {
-      setItem(
-        data.map((item) => ({
-          ...item,
-          date: new Date(item.date),
-        }))
-      );
-    }
-  }, []);
-
-useEffect(() => {
-  if (items.length) {  //Записываем localStorage
-    localStorage.setItem('data', JSON.stringify(items)); //приводи к строке обьект
-  }
-}, [items]);
-
+  const [items, setItem] = useLocalStorage([])
 
   const addItem = (item) => {
-    setItem((oldItems) => [
-      ...oldItems,
+    setItem([
+      ...mapItems(items),
       {
         post: item.post,
         title: item.title,
         date: new Date(item.date),
-        id:
-          oldItems.length > 0 ? Math.max(...oldItems.map((i) => i.id)) + 1 : 1,
+        id: items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1,
       },
     ]);
   };
@@ -73,19 +48,17 @@ useEffect(() => {
       <LeftPanel>
         <Header />
         <JournalAddButton />
-        <JournalList>
-          {items.length === 0 && <p>Записей пока нету добавьте первую</p>}
-          {items.length > 0 &&
-            items.sort(sortItem).map(
-              (
-                el //приобразование данных в конктертный jsx element
-              ) => (
-                <CardButton key={el.id}>
-                  <JournalItem title={el.title} text={el.text} date={el.date} />
-                </CardButton>
-              )
-            )}
-        </JournalList>
+        <JournalList items={mapItems(items)}>
+        {items && items.length === 0 && (
+          <p>There are no entries yet, add the first one! </p>
+        )}
+        {items && items.length > 0 &&
+          items.sort(sortItem).map((el) => (
+            <CardButton key={el.id}>
+              <JournalItem title={el.title} text={el.post} date={el.date} />
+            </CardButton>
+          ))}
+      </JournalList>
       </LeftPanel>
 
       <Body>

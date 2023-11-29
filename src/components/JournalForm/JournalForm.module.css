@@ -4,18 +4,6 @@
   gap: 30px;
 }
 
-.input-title {
-  border: none;
-  background: none;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  border-bottom: 1px solid #65616133;
-  width: 100%;
-}
 .form-row {
   display: flex;
   align-items: center;
@@ -40,7 +28,20 @@
   font-family: "Inter", sans-serif;
   border-bottom: 1px solid #65616133;
 }
-.invalid {
+.input-title {
+  border: none;
+  background: none;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  border-bottom: 1px solid #65616133;
+  width: 100%;
+}
+
+ .invalid {
   border: 1px solid red;
   background: rgb(124, 37, 37);
-}
+} 

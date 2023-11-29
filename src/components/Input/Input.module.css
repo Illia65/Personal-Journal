@@ -1,0 +1,19 @@
+.input {
+  color: #fff;
+  border: none;
+  background: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: "Inter", sans-serif;
+  border-bottom: 1px solid #65616133;
+}
+.input-title {
+  font-size: 32px;
+}
+
+.invalid {
+  border: 1px solid red;
+  background: rgb(124, 37, 37);
+}
