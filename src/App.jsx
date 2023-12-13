@@ -1,5 +1,4 @@
 import "./App.css";
-import Button from "./components/Button/Button";
 import JournalItem from "./components/JournalItem/Journalitem";
 import CardButton from "./components/CardButton/CardButton";
 import LeftPanel from "./Layout/LeftPanel/LeftPanel";
@@ -8,8 +7,7 @@ import Header from "./components/Header/Header";
 import JournalList from "./components/JournalList/JournalList";
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton";
 import JournalForm from "./components/JournalForm/JournalForm";
-import { useLocalStorage } from "./hooks/use.localstorage.hook";
-
+import { useLocalStorage } from "./hooks/use-localstorage.hook";
 
 function mapItems(items) {
   if (!items) {
@@ -22,7 +20,7 @@ function mapItems(items) {
 }
 
 function App() {
-  const [items, setItem] = useLocalStorage([])
+  const [items, setItem] = useLocalStorage([]);
 
   const addItem = (item) => {
     setItem([
@@ -49,16 +47,17 @@ function App() {
         <Header />
         <JournalAddButton />
         <JournalList items={mapItems(items)}>
-        {items && items.length === 0 && (
-          <p>There are no entries yet, add the first one! </p>
-        )}
-        {items && items.length > 0 &&
-          items.sort(sortItem).map((el) => (
-            <CardButton key={el.id}>
-              <JournalItem title={el.title} text={el.post} date={el.date} />
-            </CardButton>
-          ))}
-      </JournalList>
+          {items && items.length === 0 && (
+            <p>There are no entries yet, add the first one! </p>
+          )}
+          {items &&
+            items.length > 0 &&
+            items.sort(sortItem).map((el) => (
+              <CardButton key={el.id}>
+                <JournalItem title={el.title} text={el.post} date={el.date} />
+              </CardButton>
+            ))}
+        </JournalList>
       </LeftPanel>
 
       <Body>

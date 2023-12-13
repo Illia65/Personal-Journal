@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+
+import { useState,useEffect } from "react";
 
 export function useLocalStorage(key) {
   const [data, setData] = useState();
@@ -17,3 +19,5 @@ export function useLocalStorage(key) {
 
   return [data, saveData];
 }
+
+
